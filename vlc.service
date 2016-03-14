@@ -1,0 +1,12 @@
+[Unit]
+Description=Dashcam Daemon
+After=network.target
+
+[Service]
+User=athan
+ExecStart=/usr/bin/cvlc v4l2:///dev/video0 --sout '#transcode{vcodec=theo,vb=800,acodec=vorb,ab=128,channels=2,samplerate=44100}:duplicate{dst=http{dst=:8080/cam.ogg},dst=file{dst=/media/athan/extra/cam.ogg,no-overwrite}}' :sout-keep
+Restart=on-abort
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=graphical.target
